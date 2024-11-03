@@ -1,0 +1,39 @@
+
+plugins {
+    id 'java'
+    id 'application' // Add this line
+}
+
+group = 'aahuja.tgm.ac.at'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JSON library
+    implementation 'org.json:json:20240303'
+
+    // JUnit dependencies for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.11.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Specify the main class for the application plugin
+application {
+    mainClass = 'aahuja.tgm.ac.at.App'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
