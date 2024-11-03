@@ -36,6 +36,8 @@ public class Trainer {
   public void addQuestion(Question q) { this.questions.add(q); }
 
   public Question getRandomQuestion() {
+    if (questions.size() == 0)
+      return null;
     int randomIndex = (int)(Math.random() * questions.size());
     this.currentQuestion = randomIndex;
     return questions.get(randomIndex);

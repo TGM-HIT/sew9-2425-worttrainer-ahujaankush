@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="aahuja.tgm.ac.at.model.TrainerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-11-03T16:45:19" hostname="ahuja-msi-katama" time="0.006">
+  <properties/>
+  <testcase name="emptyQuestionListRetrieval()" classname="aahuja.tgm.ac.at.model.TrainerTest" time="0.001"/>
+  <testcase name="questionAdded()" classname="aahuja.tgm.ac.at.model.TrainerTest" time="0.001"/>
+  <testcase name="defaultStatistics()" classname="aahuja.tgm.ac.at.model.TrainerTest" time="0.001"/>
+  <testcase name="checkStatisticsUpdate()" classname="aahuja.tgm.ac.at.model.TrainerTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
