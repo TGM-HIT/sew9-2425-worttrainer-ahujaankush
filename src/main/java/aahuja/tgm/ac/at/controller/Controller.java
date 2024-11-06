@@ -10,11 +10,19 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+/**
+ * Class to connect the UI and API
+ * @author Ankush Ahuja
+ * @version 06-11-24
+ */
 public class Controller {
   private Savable trainer;
   private View view;
   private File selectedFile;
 
+  /**
+   * Constructor to create bridge
+   */
   public Controller() {
     JFileChooser fileChooser = new JFileChooser();
     int fileChooserStatus = fileChooser.showSaveDialog(null);
@@ -81,6 +89,9 @@ public class Controller {
     });
   }
 
+  /**
+   * Helper function to init. data
+   */
   void init() {
     view.setTotalGuessesText(Integer.toString(trainer.getTotalGuesses()));
     view.setCorrectGuessesText(Integer.toString(trainer.getCorrectGuesses()));

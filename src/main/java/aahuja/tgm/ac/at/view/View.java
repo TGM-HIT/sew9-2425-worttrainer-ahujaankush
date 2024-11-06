@@ -8,6 +8,11 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * UI Implementation using Swing
+ * @author Ankush Ahuja
+ * @version 05-11-2024
+ */
 public class View extends JFrame {
   private JLabel totalGuessesLabel;
   private JLabel correctGuessesLabel;

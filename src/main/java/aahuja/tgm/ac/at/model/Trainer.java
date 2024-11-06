@@ -9,6 +9,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * A trainer implementation storing contents in JSON
+ * @author Ankush Ahuja
+ * @version 06-11-24
+ */
 public class Trainer implements Savable {
   private int totalGuesses;
   private int correctGuesses;
