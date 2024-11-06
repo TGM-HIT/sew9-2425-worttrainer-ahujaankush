@@ -1,6 +1,7 @@
 package aahuja.tgm.ac.at.controller;
 
 import aahuja.tgm.ac.at.model.Question;
+import aahuja.tgm.ac.at.model.Savable;
 import aahuja.tgm.ac.at.model.Trainer;
 import aahuja.tgm.ac.at.view.View;
 import java.awt.event.ActionEvent;
@@ -10,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Controller {
-  private Trainer trainer;
+  private Savable trainer;
   private View view;
   private File selectedFile;
 
@@ -22,9 +23,18 @@ public class Controller {
       selectedFile = fileChooser.getSelectedFile();
     }
 
-    this.trainer = (selectedFile == null || !selectedFile.exists())
-                       ? new Trainer()
-                       : Trainer.load(selectedFile);
+    this.trainer = new Trainer();
+
+    if (selectedFile != null && selectedFile.exists()) {
+
+      boolean sucessful = trainer.load(selectedFile);
+      if (!sucessful) {
+        JOptionPane.showMessageDialog(
+            null, "Loading file failed, will reset trainer!");
+        this.trainer = new Trainer();
+      }
+    }
+
     this.view = new View();
 
     init();

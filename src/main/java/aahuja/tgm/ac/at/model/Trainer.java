@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Trainer {
+public class Trainer implements Savable {
   private int totalGuesses;
   private int correctGuesses;
   private int currentQuestion;
@@ -29,12 +30,22 @@ public class Trainer {
     this.questions = questions;
   }
 
-  public int getTotalGuesses() { return this.totalGuesses; }
+  @Override
+  public int getTotalGuesses() {
+    return this.totalGuesses;
+  }
 
-  public int getCorrectGuesses() { return this.correctGuesses; }
+  @Override
+  public int getCorrectGuesses() {
+    return this.correctGuesses;
+  }
 
-  public void addQuestion(Question q) { this.questions.add(q); }
+  @Override
+  public void addQuestion(Question q) {
+    this.questions.add(q);
+  }
 
+  @Override
   public Question getRandomQuestion() {
     if (questions.size() == 0)
       return null;
@@ -43,6 +54,7 @@ public class Trainer {
     return questions.get(randomIndex);
   }
 
+  @Override
   public Question getCurrentQuestion() {
     if (questions.size() == 0)
       return null;
@@ -51,6 +63,7 @@ public class Trainer {
     return questions.get(currentQuestion);
   }
 
+  @Override
   public boolean checkQuestion(Question q, String w) {
     boolean is_correct = q.checkWord(w);
     totalGuesses++;
@@ -59,6 +72,7 @@ public class Trainer {
     return is_correct;
   }
 
+  @Override
   public void save(File f) {
     JSONObject container = new JSONObject();
     container.put("totalGuesses", totalGuesses);
@@ -73,7 +87,8 @@ public class Trainer {
     }
   }
 
-  public static Trainer load(File f) {
+  @Override
+  public boolean load(File f) {
     try {
       String content = new String(Files.readAllBytes(f.toPath()));
       JSONObject obj = new JSONObject(content);
@@ -85,16 +100,16 @@ public class Trainer {
         list.add(new Question(jso.getString("word"), jso.getString("url")));
       }
 
-      Trainer rt =
-          new Trainer(obj.getInt("totalGuesses"), obj.getInt("correctGuesses"),
-                      obj.getInt("currentQuestion"), list);
-
-      return rt;
+      this.totalGuesses = obj.getInt("totalGuesses");
+      this.correctGuesses = obj.getInt("correctGuesses");
+      this.currentQuestion = obj.getInt("currentQuestion");
+      this.questions = list;
+      return true;
     } catch (IOException e) {
       System.err.println("Error reading the file: " + e.getMessage());
     } catch (Exception e) {
       System.err.println("Error parsing JSON: " + e.getMessage());
     }
-    return null;
+    return false;
   }
 }
