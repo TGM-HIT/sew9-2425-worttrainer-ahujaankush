@@ -5,8 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -19,6 +23,27 @@ public class Trainer implements Savable {
   private int correctGuesses;
   private int currentQuestion;
   private ArrayList<Question> questions;
+
+  private static final Logger logger =
+      Logger.getLogger(Trainer.class.getName());
+
+  static {
+    try {
+      // Set up the logger to log messages to a file
+      FileHandler fileHandler = new FileHandler(
+          "trainer.log", true); // true for appending to the file
+      fileHandler.setFormatter(
+          new SimpleFormatter()); // Optional: Set a formatter
+      logger.addHandler(fileHandler);
+
+      // Set the logger level to capture all levels
+      logger.setLevel(Level.ALL);
+
+    } catch (IOException e) {
+      System.err.println("Error setting up the file handler for the logger: " +
+                         e.getMessage());
+    }
+  }
 
   public Trainer() {
     this.totalGuesses = 0;
@@ -52,8 +77,10 @@ public class Trainer implements Savable {
 
   @Override
   public Question getRandomQuestion() {
-    if (questions.size() == 0)
+    if (questions.size() == 0) {
+      logger.warning("No questions available to get a random question.");
       return null;
+    }
     int randomIndex = (int)(Math.random() * questions.size());
     this.currentQuestion = randomIndex;
     return questions.get(randomIndex);
@@ -61,8 +88,10 @@ public class Trainer implements Savable {
 
   @Override
   public Question getCurrentQuestion() {
-    if (questions.size() == 0)
+    if (questions.size() == 0) {
+      logger.warning("No questions available.");
       return null;
+    }
     if (currentQuestion == -1)
       return this.getRandomQuestion();
     return questions.get(currentQuestion);
@@ -87,8 +116,10 @@ public class Trainer implements Savable {
     try (FileWriter fileWriter = new FileWriter(f)) {
       fileWriter.write(container.toString());
     } catch (IOException e) {
-      System.err.println("Unable to write JSON to specified destination: " +
-                         e.getMessage());
+      logger.log(Level.SEVERE,
+                 "Unable to write JSON to specified destination: " +
+                     e.getMessage(),
+                 e);
     }
   }
 
@@ -111,9 +142,9 @@ public class Trainer implements Savable {
       this.questions = list;
       return true;
     } catch (IOException e) {
-      System.err.println("Error reading the file: " + e.getMessage());
+      logger.log(Level.SEVERE, "Error reading the file: " + e.getMessage(), e);
     } catch (Exception e) {
-      System.err.println("Error parsing JSON: " + e.getMessage());
+      logger.log(Level.SEVERE, "Error parsing JSON: " + e.getMessage(), e);
     }
     return false;
   }
