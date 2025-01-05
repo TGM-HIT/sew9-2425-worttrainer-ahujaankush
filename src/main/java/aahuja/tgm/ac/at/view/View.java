@@ -66,7 +66,8 @@ public class View extends JFrame {
       this.imageLabel.setIcon(imageIcon);
       this.imageLabel.repaint();
     } catch (IOException e) {
-      System.out.println("Error loading image: " + e.getMessage());
+      JOptionPane.showMessageDialog(null,
+                                    "Error loading image: " + e.getMessage());
     }
   }
 
